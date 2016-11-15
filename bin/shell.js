@@ -6,7 +6,7 @@ program.version(require('../package.json').version);
 function next(err) {
     if (err) {
         console.log('[ERROR]', err, err.stack);
-        return process.exit(1)
+        return process.exit(1);
     }
     process.exit(0);
 }
