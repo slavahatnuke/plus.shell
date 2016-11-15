@@ -1,0 +1,29 @@
+{
+  "name": "plus.shell",
+  "version": "1.0.0",
+  "description": "Fast remote shell/terminal for developers goals",
+  "main": "src/shell.js",
+  "bin": {
+    "plus.shell": "./bin/shell.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slavahatnuke/plus.shell.git"
+  },
+  "keywords": [
+    "shell",
+    "terminal"
+  ],
+  "author": "slava hatnuke",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slavahatnuke/plus.shell/issues"
+  },
+  "homepage": "https://github.com/slavahatnuke/plus.shell#readme",
+  "dependencies": {
+    "commander": "^2.9.0"
+  }
+}
