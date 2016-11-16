@@ -17,7 +17,10 @@ module.exports = (app) => {
         .option("-h, --host [host]", "Host")
         .option("-k, --key [key]", "Key")
         .command('start')
-        .action(() => app.Server.start().then(() => 'ok', done));
+        .action(() => app.Server.start().then(() => 'ok', done))
+
+    program.command('run [command...]')
+        .action((command) => app.Client.run(command.join(' ')).then(done, done));
 
     return program;
 };
