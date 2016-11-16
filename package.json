@@ -25,6 +25,7 @@
   "homepage": "https://github.com/slavahatnuke/plus.shell#readme",
   "dependencies": {
     "commander": "^2.9.0",
+    "plus.application": "^1.1.13",
     "socket.io": "^1.5.1",
     "socket.io-client": "^1.5.1",
     "socket.io-stream": "^0.9.1"
