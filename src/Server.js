@@ -19,6 +19,19 @@ module.exports = class Server {
             });
         });
 
+        var dir = this.options.get('dir');
+
+        if (dir) {
+            try {
+                process.chdir(dir);
+            } catch (err) {
+                console.log(`plus.shell dir -> was not changed`);
+                console.log(` > chdir: ${err}`);
+            }
+
+            console.log(`plus.shell dir -> ${process.cwd()}`);
+        }
+
         return new Promise((resolve, reject) => {
             var port = this.options.get('port');
             var serverMask = this.options.get('serverMask');

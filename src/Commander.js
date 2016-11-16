@@ -16,6 +16,7 @@ module.exports = (app) => {
         .option("-p, --port [port]", "Port")
         .option("-h, --host [host]", "Host")
         .option("-k, --key [key]", "Key")
+        .option("-d, --dir [dir]", "Work dir")
         .command('start')
         .action(() => app.Server.start().then(() => 'ok', done))
 
