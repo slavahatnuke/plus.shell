@@ -20,11 +20,14 @@ module.exports = () => {
                 .then(() => {
                     if (this.runChild) {
                         var runCommand = this.runCommand;
-                        console.log('>', runCommand, ' - is killed');
 
-                        var killer = 'which kill && kill ' + this.runChild.pid;
+                        var killer = 'kill -s 9 ' + this.runChild.pid;
+                        // console.log(killer);
+                        console.log('>', runCommand, ' - is going to kill');
+
                         exec(killer, (err) => {
-                            if (err) return console.log('>', runCommand, ' - can not kill');
+                            if (err) return console.log('>', runCommand, ' - can not kill', err.message);
+                            console.log('>', runCommand, ' - is killed');
                         });
 
                         this.runChild.kill('SIGINT');

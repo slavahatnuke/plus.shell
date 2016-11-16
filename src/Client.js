@@ -13,7 +13,7 @@ module.exports = class Client {
     }
 
     bind() {
-        this.socket.on('server.exit', () => process.exit(1));
+        this.socket.on('server.exit', () => setTimeout(() => process.exit(1), 500));
         
         socketStream(this.socket).on('log', (stream) => {
             stream.pipe(eventStream.map((data, next) => {
@@ -28,7 +28,7 @@ module.exports = class Client {
 
     onExit() {
         this.socket.emit('client.exit');
-        process.exit(0);
+        setTimeout(() => process.exit(0), 500);
     }
 
     run(command) {
