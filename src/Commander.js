@@ -18,7 +18,7 @@ module.exports = (app) => {
         .option("-k, --key [key]", "Key")
         .option("-d, --dir [dir]", "Work dir")
         .command('start')
-        .action(() => app.Server.start().then(() => 'ok', done))
+        .action(() => app.Server.start().then(() => 'ok', done));
 
     program.command('run [command...]')
         .action((command) => app.Client.run(command.join(' ')).then(done, done));

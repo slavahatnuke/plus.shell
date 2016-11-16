@@ -1,5 +1,6 @@
 module.exports = () => {
-    var socketStream = require('socket.io-stream');
+    let socketStream = require('socket.io-stream');
+    let exec = require('child_process').exec;
 
     return class Worker {
         constructor(socket) {
@@ -18,7 +19,14 @@ module.exports = () => {
             return Promise.resolve()
                 .then(() => {
                     if (this.runChild) {
-                        console.log('>', this.runCommand, ' - is killed');
+                        var runCommand = this.runCommand;
+                        console.log('>', runCommand, ' - is killed');
+
+                        var killer = 'which kill && kill ' + this.runChild.pid;
+                        exec(killer, (err) => {
+                            if (err) return console.log('>', runCommand, ' - can not kill');
+                        });
+
                         this.runChild.kill('SIGINT');
                         this.runChild = null;
                         this.runCommand = null;
@@ -32,10 +40,8 @@ module.exports = () => {
 
         run(command) {
             return new Promise((resolve, reject) => {
-                var stream = socketStream.createStream();
+                let stream = socketStream.createStream();
                 socketStream(this.socket).emit('log', stream);
-
-                let exec = require('child_process').exec;
 
                 this.runCommand = command;
 
