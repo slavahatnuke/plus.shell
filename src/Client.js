@@ -13,12 +13,22 @@ module.exports = class Client {
     }
 
     bind() {
+        this.socket.on('server.exit', () => process.exit(1));
+        
         socketStream(this.socket).on('log', (stream) => {
             stream.pipe(eventStream.map((data, next) => {
                 console.log(data.toString());
                 next();
             }));
         });
+
+        process.on('SIGINT', () => this.onExit());
+        process.on('exit', () => this.onExit());
+    }
+
+    onExit() {
+        this.socket.emit('client.exit');
+        process.exit(0);
     }
 
     run(command) {

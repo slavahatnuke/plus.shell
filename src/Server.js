@@ -6,6 +6,12 @@ module.exports = class Server {
         this.Worker = Worker;
     }
 
+
+    onExit() {
+        this.workers.forEach((worker) => worker.notifyExit());
+        process.exit(0);
+    }
+
     start() {
         this.httpServer = require('http').createServer(() => null);
         this.io = require('socket.io')(this.httpServer);
@@ -16,6 +22,7 @@ module.exports = class Server {
             this.workers.push(worker);
             socket.on('disconnect', () => {
                 this.workers = this.workers.filter((aSocket) => aSocket === socket);
+                worker.kill();
             });
         });
 
@@ -31,6 +38,9 @@ module.exports = class Server {
 
             console.log(`plus.shell dir -> ${process.cwd()}`);
         }
+
+        process.on('SIGINT', () => this.onExit());
+        process.on('exit', () => this.onExit());
 
         return new Promise((resolve, reject) => {
             var port = this.options.get('port');
