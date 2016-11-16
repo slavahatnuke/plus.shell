@@ -1,12 +1,12 @@
-module.exports = () => {
+module.exports = (ProcessKiller) => {
     let socketStream = require('socket.io-stream');
     let exec = require('child_process').exec;
 
     return class Worker {
         constructor(socket) {
             this.socket = socket;
-            this.runChild = null;
-            this.runCommand = null;
+            this.commands = [];
+
             this.bind();
         }
 
@@ -16,25 +16,20 @@ module.exports = () => {
         }
 
         kill() {
-            return Promise.resolve()
-                .then(() => {
-                    if (this.runChild) {
-                        var runCommand = this.runCommand;
-
-                        var killer = 'kill -s 9 ' + this.runChild.pid;
-                        // console.log(killer);
-                        console.log('>', runCommand, ' - is going to kill');
-
-                        exec(killer, (err) => {
-                            if (err) return console.log('>', runCommand, ' - can not kill', err.message);
-                            console.log('>', runCommand, ' - is killed');
+            return Promise
+                .all(this.commands.map((command) => {
+                    return Promise.resolve()
+                        .then(() => {
+                            if (command.process) {
+                                ProcessKiller.kill(command.process.pid)
+                                    .then(() => command.process && command.process.kill('SIGINT'))
+                                    .then(() => console.log('>', command.command, ' - is killed'))
+                                    .catch((err) => console.log('>', command.command, ' - can not kill', err.message));
+                                command.process = null;
+                            }
                         });
-
-                        this.runChild.kill('SIGINT');
-                        this.runChild = null;
-                        this.runCommand = null;
-                    }
-                });
+                }))
+                .then(() => this.commands = []);
         }
 
         notifyExit() {
@@ -46,24 +41,32 @@ module.exports = () => {
                 let stream = socketStream.createStream();
                 socketStream(this.socket).emit('log', stream);
 
-                this.runCommand = command;
+                var item = {
+                    command: command,
+                    process: null
+                };
 
-                console.log('>', command);
+                console.log('>', item.command);
 
-                this.runChild = exec(command, {
+                item.process = exec(item.command, {
                     maxBuffer: 1024 * 1024 * 1024 * 1024
-                }, () => 'ok');
+                }, (err) => {
+                    if (err) {
+                        this.commands = this.commands.filter((anItem) => anItem !== item);
+                        return reject(err);
+                    }
+                });
 
+                this.commands.push(item);
 
-                this.runChild.stdout.pipe(stream);
-                this.runChild.stderr.pipe(stream);
+                item.process.stdout.pipe(stream);
+                item.process.stderr.pipe(stream);
 
-                this.runChild.stdout.pipe(process.stdout);
-                this.runChild.stderr.pipe(process.stderr);
+                item.process.stdout.pipe(process.stdout);
+                item.process.stderr.pipe(process.stderr);
 
                 stream.on('end', () => {
-                    this.runChild = null;
-                    this.runCommand = null;
+                    this.commands = this.commands.filter((anItem) => anItem !== item);
                     resolve();
                 });
             });

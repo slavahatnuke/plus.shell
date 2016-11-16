@@ -1,13 +1,14 @@
 {
   "name": "plus.shell",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Fast remote shell/terminal for developers goals",
   "main": "src/shell.js",
   "bin": {
     "plus.shell": "./bin/shell.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server.dev": "nodemon -x 'node bin/shell.js start'"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "commander": "^2.9.0",
     "event-stream": "^3.3.4",
     "plus.application": "^1.1.13",
+    "ps-tree": "^1.1.0",
     "socket.io": "^1.5.1",
     "socket.io-client": "^1.5.1",
     "socket.io-stream": "^0.9.1"
