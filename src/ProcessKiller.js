@@ -26,7 +26,7 @@ module.exports = class ProcessKiller {
                     this.psTree(pid, (err, children) => {
                         if (err) return reject(err);
 
-                        let pids = children.map((p) => p.PID);
+                        var pids = children.map((p) => p.PID);
                         if (!pids.length) return resolve();
 
                         var command = 'kill -s 9 ' + pids.join(' ');

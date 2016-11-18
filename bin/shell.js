@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-let app = require('../config/application').container;
-let program = app.Commander;
+var app = require('../config/application').container;
+var program = app.Commander;
 
 program.parse(process.argv);
 

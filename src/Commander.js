@@ -9,7 +9,7 @@ module.exports = (app) => {
         process.exit(0);
     }
 
-    let program = require('commander');
+    var program = require('commander');
 
     program
         .version(require('../package.json').version)

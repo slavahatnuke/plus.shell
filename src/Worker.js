@@ -1,6 +1,6 @@
 module.exports = (ProcessKiller) => {
-    let socketStream = require('socket.io-stream');
-    let exec = require('child_process').exec;
+    var socketStream = require('socket.io-stream');
+    var exec = require('child_process').exec;
 
     return class Worker {
         constructor(socket) {
@@ -38,7 +38,7 @@ module.exports = (ProcessKiller) => {
 
         run(command) {
             return new Promise((resolve, reject) => {
-                let stream = socketStream.createStream();
+                var stream = socketStream.createStream();
                 socketStream(this.socket).emit('log', stream);
 
                 var item = {
