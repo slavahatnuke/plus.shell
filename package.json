@@ -1,6 +1,6 @@
 {
   "name": "plus.shell",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Fast remote shell/terminal for developers goals",
   "main": "src/shell.js",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server.dev": "nodemon -x 'node bin/shell.js start'"
+    "dev": "nodemon -x 'node --debug bin/shell.js start'"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "dependencies": {
     "commander": "^2.9.0",
     "event-stream": "^3.3.4",
+    "jsonwebtoken": "^7.1.9",
     "plus.application": "^1.1.13",
     "ps-tree": "^1.1.0",
     "socket.io": "^1.5.1",

@@ -3,6 +3,6 @@ app:
   working_dir: /project
   volumes:
     - ./:/project
-  command: plus.shell --dir /project start
+  command: concurrently "plus.shell --dir /project start" "echo start-your-app"
   ports:
     - "10022:10022"

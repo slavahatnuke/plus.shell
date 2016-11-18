@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = (ProcessKiller) => {
+module.exports = (ProcessKiller, Coder) => {
     var socketStream = require('socket.io-stream');
     var exec = require('child_process').exec;
 
@@ -39,38 +39,43 @@ module.exports = (ProcessKiller) => {
         }
 
         run(command) {
-            return new Promise((resolve, reject) => {
-                var stream = socketStream.createStream();
-                socketStream(this.socket).emit('log', stream);
+            return Coder.decode(command).then((data) => {
+                command = data.command;
 
-                var item = {
-                    command: command,
-                    process: null
-                };
+                return new Promise((resolve, reject) => {
+                    var stream = socketStream.createStream();
+                    socketStream(this.socket).emit('log', stream);
 
-                console.log('>', item.command);
+                    var item = {
+                        command: command,
+                        process: null
+                    };
 
-                item.process = exec(item.command, {
-                    maxBuffer: 1024 * 1024 * 1024 * 1024
-                }, (err) => {
-                    if (err) {
+                    console.log('>', item.command);
+
+                    item.process = exec(item.command, {
+                        maxBuffer: 1024 * 1024 * 1024 * 1024
+                    }, (err) => {
+                        if (err) {
+                            this.commands = this.commands.filter((anItem) => anItem !== item);
+                            return reject(err);
+                        }
+                    });
+
+                    this.commands.push(item);
+
+                    item.process.stdout.pipe(Coder.encodeStream()).pipe(stream);
+                    item.process.stderr.pipe(Coder.encodeStream()).pipe(stream);
+
+                    item.process.stdout.pipe(process.stdout);
+                    item.process.stderr.pipe(process.stderr);
+
+                    stream.on('end', () => {
                         this.commands = this.commands.filter((anItem) => anItem !== item);
-                        return reject(err);
-                    }
+                        resolve();
+                    });
                 });
 
-                this.commands.push(item);
-
-                item.process.stdout.pipe(stream);
-                item.process.stderr.pipe(stream);
-
-                item.process.stdout.pipe(process.stdout);
-                item.process.stderr.pipe(process.stderr);
-
-                stream.on('end', () => {
-                    this.commands = this.commands.filter((anItem) => anItem !== item);
-                    resolve();
-                });
             });
         }
     }

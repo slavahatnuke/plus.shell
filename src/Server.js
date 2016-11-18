@@ -1,11 +1,12 @@
 "use strict";
 
 module.exports = class Server {
-    constructor(options, Worker) {
+    constructor(options, Worker, Coder) {
         this.httpServer = null;
         this.options = options;
         this.workers = [];
         this.Worker = Worker;
+        this.Coder = Coder;
     }
 
 
@@ -15,8 +16,19 @@ module.exports = class Server {
     }
 
     start() {
-        this.httpServer = require('http').createServer(() => null);
+        this.httpServer = require('http').createServer((req, res) => null);
         this.io = require('socket.io')(this.httpServer);
+
+        this.io.use((req, accept) => {
+            if (req.handshake.query && req.handshake.query.access_token) {
+                this.Coder.decode(req.handshake.query.access_token)
+                    .then(() => accept())
+                    .catch(() => accept(new Error('No access')));
+            } else {
+                console.log('no access');
+                accept(new Error('No access'));
+            }
+        });
 
         this.io.on('connection', (socket) => {
             var worker = new this.Worker(socket);

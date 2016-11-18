@@ -1,7 +1,7 @@
 # Plus Shell
-Fast remote terminal for developers goals. 
- - Now is not secure (used HTTP + socket.io) 
- - Used just for docker container access for developers needs.
+Fast remote terminal for developers goals / socket io remote terminal.
+ - Secure JWT (jsonwebtoken) based (used HTTP + JWT + socket.io + socket.io streams) 
+ - We used this for docker container access for developers needs.
  - Streams views
  - Kills process on exit
 
@@ -47,7 +47,7 @@ app:
   working_dir: /project
   volumes:
     - ./:/project
-  command: plus.shell --dir /project start
+  command: concurrently "plus.shell --dir /project start" "echo start-your-app"
   ports:
     - "10022:10022"
 ```
