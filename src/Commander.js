@@ -4,8 +4,9 @@ module.exports = (app) => {
 
     function done(err) {
         if (err) {
-            console.log('[ERROR]', err, err.stack);
-            return process.exit(1);
+            console.log('[ERROR]', err, err.stack || '');
+            setTimeout(() => process.exit(1), 1000);
+            return false;
         }
 
         process.exit(0);

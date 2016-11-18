@@ -11,4 +11,7 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt-get install -y nodejs
 
 # npm packages
-RUN npm install -g concurrently plus.shell
+RUN npm install -g concurrently
+
+RUN echo "version 1.0.10"
+RUN npm install -g plus.shell

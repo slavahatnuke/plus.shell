@@ -13,7 +13,7 @@ module.exports = (ProcessKiller, Coder) => {
         }
 
         bind() {
-            this.socket.on('run', (command, next) => this.run(command).then((stream) => next(null, stream), next));
+            this.socket.on('run', (command, next) => this.run(command).then(() => next(null), next));
             this.socket.on('client.exit', () => this.kill());
         }
 
