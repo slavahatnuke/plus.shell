@@ -1,3 +1,5 @@
+"use strict";
+
 var socketStream = require('socket.io-stream');
 var eventStream = require('event-stream');
 

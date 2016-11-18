@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+"use strict";
+
 var app = require('../config/application').container;
 var program = app.Commander;
 

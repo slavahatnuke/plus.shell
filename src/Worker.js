@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = (ProcessKiller) => {
     var socketStream = require('socket.io-stream');
     var exec = require('child_process').exec;

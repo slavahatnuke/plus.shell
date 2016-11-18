@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = class Options {
     constructor(config, commander) {
         this.config = config;

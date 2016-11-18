@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = class Server {
     constructor(options, Worker) {
         this.httpServer = null;

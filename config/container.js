@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = (container) => {
   container.add('Commander', require('../src/Commander'), ['container']);
 

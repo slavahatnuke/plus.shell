@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = class ProcessKiller {
     constructor() {
         this.exec = require('child_process').exec;
