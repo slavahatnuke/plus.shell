@@ -38,4 +38,34 @@ $ plus.shell run -- echo hello
 hello
 ```
 
+### docker examples
 
+**docker-compose.yml**
+```
+app:
+  build: ./
+  working_dir: /project
+  volumes:
+    - ./:/project
+  command: plus.shell --dir /project start
+  ports:
+    - "10022:10022"
+```
+
+**Dockerfile**
+```
+FROM ubuntu:precise
+
+RUN mkdir /project
+WORKDIR /project
+
+RUN apt-get update
+RUN apt-get install -y build-essential git curl
+
+# node.js
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
+RUN apt-get install -y nodejs
+
+# npm packages
+RUN npm install -g concurrently plus.shell
+```
