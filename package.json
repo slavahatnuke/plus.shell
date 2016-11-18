@@ -1,6 +1,6 @@
 {
   "name": "plus.shell",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Fast remote shell/terminal for developers goals",
   "main": "src/shell.js",
   "bin": {
