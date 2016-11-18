@@ -13,5 +13,5 @@ RUN apt-get install -y nodejs
 # npm packages
 RUN npm install -g concurrently
 
-RUN echo "version 1.0.10"
+RUN echo "version 1.0.11"
 RUN npm install -g plus.shell

@@ -5,7 +5,7 @@ module.exports = (app) => {
     function done(err) {
         if (err) {
             console.log('[ERROR]', err, err.stack || '');
-            setTimeout(() => process.exit(1), 1000);
+            setTimeout(() => process.exit(1), 500);
             return false;
         }
 
@@ -24,7 +24,9 @@ module.exports = (app) => {
         .action(() => app.Server.start().then(() => 'ok', done));
 
     program.command('run [command...]')
-        .action((command) => app.Client.run(command.join(' ')).then(done, done));
+        .action((command) => app.Client.run(command.join(' ')).then(done, (err) => {
+            setTimeout(() => process.exit(1), 1000);
+        }));
 
     return program;
 };
