@@ -1,5 +1,7 @@
 "use strict";
 
+console.log('process.env', process.env);
+
 var express = require('express');
 var app = express();
 

@@ -1,0 +1,8 @@
+app:
+  build: ./
+  working_dir: /project
+  volumes:
+    - ./:/project
+  command: plus.shell --dir /project start
+  ports:
+    - "10022:10022"
