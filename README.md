@@ -3,7 +3,7 @@ Fast remote terminal for developers goals / socket io remote terminal.
  - Secure JWT (jsonwebtoken) based (used HTTP + JWT + socket.io + socket.io streams) 
  - We used this for docker container access for developers needs.
  - Streams views
- - Kills process on exit
+ - It kills process on exit
 
 ```
   Usage: plus.shell [options] [command]
@@ -18,10 +18,10 @@ Fast remote terminal for developers goals / socket io remote terminal.
 
     -h, --help         output usage information
     -V, --version      output the version number
-    -p, --port [port]  Port
-    -h, --host [host]  Host
-    -k, --key [key]    Key
-    -d, --dir [dir]    Work dir
+    -p, --port [port]  Port       : 10022 is default
+    -h, --host [host]  Host       : localhost or maydomain.com.dev or IP
+    -k, --key [key]    Key        : this is text password, must be same  for client and server  
+    -d, --dir [dir]    Work dir   : path to the work dir > $ plus.shell -d /project start 
 ```
 
 ## Examples
@@ -69,3 +69,7 @@ RUN apt-get install -y nodejs
 # npm packages
 RUN npm install -g concurrently plus.shell
 ```
+
+Be happy!
+ 
+your [+1G Team](http://plus1generation.com/)
